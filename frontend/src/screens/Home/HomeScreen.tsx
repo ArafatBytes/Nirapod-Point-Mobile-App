@@ -1,0 +1,305 @@
+import React from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
+  StatusBar,
+  Alert,
+} from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
+import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
+import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
+import {
+  NavigationProp,
+  useNavigation as useNav,
+} from '@react-navigation/native';
+import {
+  colors,
+  spacing,
+  borderRadius,
+  typography,
+  shadows,
+  gradients,
+} from '../../theme';
+import { useAuthStore } from '../../store';
+import { GlassCard } from '../../components/GlassCard';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { MainTabParamList } from '../../types';
+
+type HomeScreenNavigationProp = BottomTabNavigationProp<
+  MainTabParamList,
+  'Home'
+>;
+
+const HomeScreen: React.FC = () => {
+  const { user } = useAuthStore();
+  const insets = useSafeAreaInsets();
+  const navigation = useNavigation<HomeScreenNavigationProp>();
+  const rootNavigation = useNav<any>();
+
+  const handleSOSPress = () => {
+    Alert.alert(
+      'SOS Emergency',
+      'This feature is coming soon! Emergency services will be notified instantly.',
+      [{ text: 'OK' }],
+    );
+  };
+
+  const handleReportCrimePress = () => {
+    // Navigate to Reports tab first, then to AddReport screen
+    navigation.navigate('Reports');
+    // Use setTimeout to ensure tab switch completes before navigating
+    setTimeout(() => {
+      rootNavigation.navigate('AddReport');
+    }, 100);
+  };
+
+  const handleContactsPress = () => {
+    // Navigate to Profile tab first, then to EmergencyContacts screen
+    navigation.navigate('Profile');
+    // Use setTimeout to ensure tab switch completes before navigating
+    setTimeout(() => {
+      rootNavigation.navigate('EmergencyContacts');
+    }, 100);
+  };
+
+  return (
+    <View style={[styles.container, { paddingTop: insets.top }]}>
+      <StatusBar barStyle="dark-content" backgroundColor={colors.background} />
+      <ScrollView
+        style={styles.scrollView}
+        contentContainerStyle={[
+          styles.scrollContent,
+          { paddingBottom: insets.bottom },
+        ]}
+        showsVerticalScrollIndicator={false}
+      >
+        {/* Header */}
+        <View style={styles.header}>
+          <Text style={styles.greeting}>Welcome back,</Text>
+          <Text style={styles.name}>{user?.name?.split(' ')[0]} 👋</Text>
+          <Text style={styles.subtitle}>Stay safe with NirapodPoint</Text>
+        </View>
+
+        {/* SOS Emergency Button */}
+        <TouchableOpacity
+          style={[styles.sosButtonContainer, styles.sosButton]}
+          onPress={handleSOSPress}
+        >
+          <Ionicons name="alert-circle" size={32} color={colors.white} />
+          <Text style={styles.sosButtonText}>SOS Emergency</Text>
+        </TouchableOpacity>
+
+        {/* Quick Actions */}
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Quick Actions</Text>
+          <View style={styles.actionGrid}>
+            <TouchableOpacity
+              style={styles.actionCard}
+              onPress={handleReportCrimePress}
+            >
+              <GlassCard style={styles.actionCardInner}>
+                <View style={styles.iconContainer}>
+                  <Ionicons
+                    name="document-text"
+                    size={28}
+                    color={colors.primaryLight}
+                  />
+                </View>
+                <Text style={styles.actionText}>Report Crime</Text>
+              </GlassCard>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={styles.actionCard}
+              onPress={() => navigation.navigate('Map')}
+            >
+              <GlassCard style={styles.actionCardInner}>
+                <View style={styles.iconContainer}>
+                  <MaterialCommunityIcons
+                    name="map-marker-path"
+                    size={28}
+                    color={colors.secondary}
+                  />
+                </View>
+                <Text style={styles.actionText}>Plan Route</Text>
+              </GlassCard>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={styles.actionCard}
+              onPress={() => navigation.navigate('Map')}
+            >
+              <GlassCard style={styles.actionCardInner}>
+                <View style={styles.iconContainer}>
+                  <Ionicons name="location" size={28} color={colors.info} />
+                </View>
+                <Text style={styles.actionText}>Track Location</Text>
+              </GlassCard>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={styles.actionCard}
+              onPress={handleContactsPress}
+            >
+              <GlassCard style={styles.actionCardInner}>
+                <View style={styles.iconContainer}>
+                  <Ionicons name="people" size={28} color={colors.warning} />
+                </View>
+                <Text style={styles.actionText}>Contacts</Text>
+              </GlassCard>
+            </TouchableOpacity>
+          </View>
+        </View>
+
+        {/* Safety Status */}
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Safety Status</Text>
+          <GlassCard style={styles.statusCard}>
+            <View style={styles.statusIcon}>
+              <Ionicons
+                name="shield-checkmark"
+                size={56}
+                color={colors.successLight}
+              />
+            </View>
+            <Text style={styles.statusText}>You are in a safe zone</Text>
+            <View style={styles.scoreContainer}>
+              <Text style={styles.scoreLabel}>Crime Score</Text>
+              <View style={styles.scoreBadge}>
+                <Text style={styles.scoreValue}>Low</Text>
+                <Text style={styles.scoreNumber}>3.2/10</Text>
+              </View>
+            </View>
+          </GlassCard>
+        </View>
+      </ScrollView>
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: colors.background,
+  },
+  scrollView: {
+    flex: 1,
+  },
+  scrollContent: {
+    paddingHorizontal: spacing.lg,
+  },
+  header: {
+    paddingTop: spacing.xl,
+    paddingBottom: spacing.lg,
+  },
+  greeting: {
+    ...typography.bodyLarge,
+    color: colors.textSecondary,
+    marginBottom: spacing.xs,
+  },
+  name: {
+    ...typography.h1,
+    color: colors.text,
+    marginBottom: spacing.xs,
+  },
+  subtitle: {
+    ...typography.body,
+    color: colors.textSecondary,
+  },
+  sosButtonContainer: {
+    marginBottom: spacing.xl,
+  },
+  sosButton: {
+    backgroundColor: colors.danger,
+    borderRadius: borderRadius.lg,
+    padding: spacing.lg,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    ...shadows.lg,
+  },
+  sosButtonText: {
+    ...typography.h4,
+    color: colors.white,
+    fontWeight: '700',
+    marginLeft: spacing.md,
+  },
+  section: {
+    marginBottom: spacing.xl,
+  },
+  sectionTitle: {
+    ...typography.h3,
+    color: colors.text,
+    marginBottom: spacing.lg,
+  },
+  actionGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+  },
+  actionCard: {
+    width: '48%',
+    marginBottom: spacing.md,
+  },
+  actionCardInner: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: spacing.xl,
+  },
+  iconContainer: {
+    marginBottom: spacing.md,
+  },
+  actionText: {
+    ...typography.bodySmall,
+    color: colors.text,
+    fontWeight: '600',
+    textAlign: 'center',
+  },
+  statusCard: {
+    alignItems: 'center',
+    paddingVertical: spacing.xl,
+  },
+  statusIcon: {
+    marginBottom: spacing.lg,
+  },
+  statusText: {
+    ...typography.h4,
+    color: colors.text,
+    textAlign: 'center',
+    marginBottom: spacing.lg,
+  },
+  scoreContainer: {
+    alignItems: 'center',
+  },
+  scoreLabel: {
+    ...typography.caption,
+    color: colors.textSecondary,
+    textTransform: 'uppercase',
+    letterSpacing: 1,
+    marginBottom: spacing.xs,
+  },
+  scoreBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'rgba(16, 185, 129, 0.2)',
+    paddingHorizontal: spacing.lg,
+    paddingVertical: spacing.sm,
+    borderRadius: borderRadius.full,
+  },
+  scoreValue: {
+    ...typography.body,
+    color: colors.successLight,
+    fontWeight: '700',
+    marginRight: spacing.sm,
+  },
+  scoreNumber: {
+    ...typography.bodySmall,
+    color: colors.textSecondary,
+  },
+});
+
+export default HomeScreen;
