@@ -5,7 +5,7 @@ export const APP_VERSION = '1.0.0';
 
 // API Configuration
 export const API_BASE_URL = __DEV__
-  ? 'http://192.168.0.197:8000/api/v1' // Updated IP address
+  ? 'http://192.168.0.111:8000/api/v1' // Updated to current local IP
   : 'https://api.nirapodpoint.com/api/v1'; // Production
 
 export const API_TIMEOUT = 30000; // 30 seconds

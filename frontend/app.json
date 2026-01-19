@@ -26,6 +26,7 @@
     },
     "android": {
       "package": "com.nirapodpoint.app",
+      "usesCleartextTraffic": true,
       "permissions": [
         "ACCESS_COARSE_LOCATION",
         "ACCESS_FINE_LOCATION",

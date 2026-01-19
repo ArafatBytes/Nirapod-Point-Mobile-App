@@ -14,7 +14,7 @@ import { RouteProp } from '@react-navigation/native';
 import { ReportsStackParamList } from '../../types';
 import { colors, spacing, borderRadius, fontSize } from '../../theme';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
+import MapView, { Marker, PROVIDER_GOOGLE } from '../../components/MapComponent';
 import { crimeService } from '../../services/crime.service';
 
 type ReportDetailsScreenNavigationProp = NativeStackNavigationProp<

@@ -12,7 +12,7 @@ import {
   ActivityIndicator,
   Image,
 } from 'react-native';
-import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
+import MapView, { Marker, PROVIDER_GOOGLE } from '../../components/MapComponent';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -389,7 +389,7 @@ const AddReportScreen: React.FC<AddReportScreenProps> = ({ navigation }) => {
           Alert.alert(
             'Analysis Failed',
             message ||
-              'Could not analyze the image. Please fill the form manually.',
+            'Could not analyze the image. Please fill the form manually.',
             [{ text: 'OK' }],
           );
         }
@@ -600,7 +600,7 @@ const AddReportScreen: React.FC<AddReportScreenProps> = ({ navigation }) => {
                   style={[
                     styles.categoryLabel,
                     selectedCategory === category.id &&
-                      styles.categoryLabelActive,
+                    styles.categoryLabelActive,
                   ]}
                 >
                   {category.label}
@@ -1028,10 +1028,10 @@ const AddReportScreen: React.FC<AddReportScreenProps> = ({ navigation }) => {
                                 width: `${Math.min(analysisResult.fusion_signals.object_score, 100)}%`,
                                 backgroundColor:
                                   analysisResult.fusion_signals.object_score >
-                                  70
+                                    70
                                     ? colors.success
                                     : analysisResult.fusion_signals
-                                          .object_score > 40
+                                      .object_score > 40
                                       ? colors.warning
                                       : colors.error,
                               },
@@ -1060,7 +1060,7 @@ const AddReportScreen: React.FC<AddReportScreenProps> = ({ navigation }) => {
                                   analysisResult.fusion_signals.pose_score > 70
                                     ? colors.success
                                     : analysisResult.fusion_signals.pose_score >
-                                        40
+                                      40
                                       ? colors.warning
                                       : colors.error,
                               },
@@ -1089,7 +1089,7 @@ const AddReportScreen: React.FC<AddReportScreenProps> = ({ navigation }) => {
                                   analysisResult.fusion_signals.scene_score > 70
                                     ? colors.success
                                     : analysisResult.fusion_signals
-                                          .scene_score > 40
+                                      .scene_score > 40
                                       ? colors.warning
                                       : colors.error,
                               },
@@ -1118,10 +1118,10 @@ const AddReportScreen: React.FC<AddReportScreenProps> = ({ navigation }) => {
                                 width: `${Math.min(analysisResult.fusion_signals.weighted_score, 100)}%`,
                                 backgroundColor:
                                   analysisResult.fusion_signals.weighted_score >
-                                  75
+                                    75
                                     ? '#4CAF50'
                                     : analysisResult.fusion_signals
-                                          .weighted_score > 50
+                                      .weighted_score > 50
                                       ? '#FF9800'
                                       : '#F44336',
                               },

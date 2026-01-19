@@ -42,6 +42,7 @@ const EmergencyContactsScreen: React.FC<Props> = ({ navigation }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [contactName, setContactName] = useState('');
   const [contactPhone, setContactPhone] = useState('');
+  const [contactEmail, setContactEmail] = useState('');
   const [isSaving, setIsSaving] = useState(false);
 
   useEffect(() => {
@@ -110,6 +111,7 @@ const EmergencyContactsScreen: React.FC<Props> = ({ navigation }) => {
 
           // Clean phone number
           const cleanedPhone = phoneNumber.replace(/\D/g, '');
+          const email = contact.emails?.[0]?.email || '';
 
           // Validate phone number
           if (cleanedPhone.length < 10) {
@@ -117,7 +119,13 @@ const EmergencyContactsScreen: React.FC<Props> = ({ navigation }) => {
             return;
           }
 
-          await addEmergencyContact(name, cleanedPhone);
+          // Validate email
+          if (!email || !email.includes('@')) {
+            Alert.alert('Error', 'Selected contact must have a valid email address');
+            return;
+          }
+
+          await addEmergencyContact(name, cleanedPhone, email);
         }
       }
     } catch (error: any) {
@@ -129,6 +137,7 @@ const EmergencyContactsScreen: React.FC<Props> = ({ navigation }) => {
   const openManualAddModal = () => {
     setContactName('');
     setContactPhone('');
+    setContactEmail('');
     setIsModalVisible(true);
   };
 
@@ -150,18 +159,20 @@ const EmergencyContactsScreen: React.FC<Props> = ({ navigation }) => {
       return;
     }
 
-    if (!phoneDigits.startsWith('01')) {
-      Alert.alert(
-        'Error',
-        'Phone number must start with 01 (Bangladeshi format)',
-      );
+    if (!contactEmail.trim()) {
+      Alert.alert('Error', 'Please enter email address');
       return;
     }
 
-    await addEmergencyContact(contactName.trim(), phoneDigits);
+    if (!contactEmail.includes('@')) {
+      Alert.alert('Error', 'Please enter a valid email address');
+      return;
+    }
+
+    await addEmergencyContact(contactName.trim(), phoneDigits, contactEmail.trim());
   };
 
-  const addEmergencyContact = async (name: string, phone: string) => {
+  const addEmergencyContact = async (name: string, phone: string, email: string) => {
     try {
       setIsSaving(true);
 
@@ -181,6 +192,7 @@ const EmergencyContactsScreen: React.FC<Props> = ({ navigation }) => {
         user_id: user?.id,
         name,
         phone,
+        email,
       });
 
       if (error) throw error;
@@ -244,6 +256,7 @@ const EmergencyContactsScreen: React.FC<Props> = ({ navigation }) => {
       <View style={styles.contactInfo}>
         <Text style={styles.contactName}>{item.name}</Text>
         <Text style={styles.contactPhone}>{item.phone}</Text>
+        <Text style={styles.contactEmail}>{item.email}</Text>
       </View>
       <TouchableOpacity
         style={styles.deleteButton}
@@ -360,6 +373,19 @@ const EmergencyContactsScreen: React.FC<Props> = ({ navigation }) => {
                     </Text>
                   </View>
 
+                  <View style={styles.inputContainer}>
+                    <Text style={styles.inputLabel}>Email</Text>
+                    <TextInput
+                      style={styles.input}
+                      placeholder="Enter email address"
+                      placeholderTextColor={colors.textSecondary}
+                      value={contactEmail}
+                      onChangeText={setContactEmail}
+                      keyboardType="email-address"
+                      autoCapitalize="none"
+                    />
+                  </View>
+
                   <TouchableOpacity
                     style={[
                       styles.saveButton,
@@ -473,6 +499,11 @@ const styles = StyleSheet.create({
   },
   contactPhone: {
     fontSize: fontSize.md,
+    color: colors.textSecondary,
+    marginBottom: 2,
+  },
+  contactEmail: {
+    fontSize: fontSize.sm,
     color: colors.textSecondary,
   },
   deleteButton: {
