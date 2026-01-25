@@ -20,6 +20,13 @@ class CrimeCategory(str, enum.Enum):
     OTHER = "other"
 
 
+class CrimeSeverity(str, enum.Enum):
+    LOW = "low"
+    MEDIUM = "medium"
+    HIGH = "high"
+    CRITICAL = "critical"
+
+
 class CrimeReport(Base):
     __tablename__ = "crime_reports"
     

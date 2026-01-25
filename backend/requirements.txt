@@ -1,27 +1,27 @@
 # FastAPI Core
-fastapi==0.109.0
-uvicorn[standard]==0.27.0
-pydantic==2.5.3
-pydantic-settings==2.1.0
-python-multipart==0.0.6
+fastapi
+uvicorn[standard]
+pydantic
+pydantic-settings
+python-multipart
 
 # Database
-sqlalchemy==2.0.25
-asyncpg==0.29.0
-psycopg2-binary==2.9.9
-alembic==1.13.1
-geoalchemy2==0.14.3
+sqlalchemy
+asyncpg
+psycopg2-binary
+alembic
+geoalchemy2
 
 # Authentication & Security
-python-jose[cryptography]==3.3.0
-passlib[bcrypt]==1.7.4
-python-dotenv==1.0.0
-bcrypt==4.1.2
+python-jose[cryptography]
+passlib[bcrypt]
+python-dotenv
+bcrypt
 
 # Redis & Caching
-redis==5.0.1
-aioredis==2.0.1
-hiredis==2.3.2
+redis
+aioredis
+hiredis
 
 # Celery for Background Tasks
 celery==5.3.6
@@ -42,19 +42,19 @@ twilio==8.11.1
 firebase-admin==6.4.0
 
 # Image & Video Processing
-pillow==10.2.0
+# pillow==10.2.0
 
 # AI & Machine Learning for Crime Detection
 ultralytics==8.1.34
-torch==2.1.2
-torchvision==0.16.2
-numpy==1.26.3
-onnxruntime==1.16.3
-mediapipe==0.10.9
-opencv-python==4.9.0.80
-scipy==1.11.4
-transformers==4.36.2  # Phase 3: CLIP for scene classification
-safetensors==0.4.1  # Required by transformers
+torch
+torchvision
+numpy
+onnxruntime
+mediapipe
+opencv-python
+scipy
+transformers  # Phase 3: CLIP for scene classification
+safetensors  # Required by transformers
 
 # File Storage
 boto3==1.34.34

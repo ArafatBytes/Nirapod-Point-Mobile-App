@@ -2,7 +2,7 @@
 Emergency contact model
 """
 from sqlalchemy import Column, String, ForeignKey
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship as sa_relationship
 import uuid
 from app.core.database import Base
 
@@ -14,7 +14,8 @@ class EmergencyContact(Base):
     user_id = Column(String, ForeignKey("users.id"), nullable=False)
     name = Column(String, nullable=False)
     phone = Column(String, nullable=False)
+    email = Column(String, nullable=False)
     relationship = Column(String)
     
     # Relationships
-    user = relationship("User", back_populates="emergency_contacts")
+    user = sa_relationship("User", back_populates="emergency_contacts")

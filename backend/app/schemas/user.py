@@ -9,6 +9,7 @@ from datetime import datetime
 class EmergencyContactCreate(BaseModel):
     name: str
     phone: str
+    email: EmailStr
     relationship: Optional[str] = None
 
 
@@ -16,6 +17,7 @@ class EmergencyContactResponse(BaseModel):
     id: str
     name: str
     phone: str
+    email: str
     relationship: Optional[str]
     
     class Config:

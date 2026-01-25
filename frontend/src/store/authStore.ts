@@ -7,6 +7,7 @@ interface AuthState {
   isAuthenticated: boolean;
   isLoading: boolean;
   error: string | null;
+  token: string | null;
 
   // Actions
   setUser: (user: User | null) => void;
@@ -27,6 +28,7 @@ export const useAuthStore = create<AuthState>(set => ({
   isAuthenticated: false,
   isLoading: false,
   error: null,
+  token: null,
 
   setUser: user => set({ user, isAuthenticated: !!user }),
 
@@ -42,6 +44,7 @@ export const useAuthStore = create<AuthState>(set => ({
       const response = await AuthService.login({ email, password });
       set({
         user: response.user,
+        token: response.tokens.accessToken,
         isAuthenticated: true,
         isLoading: false,
       });
@@ -58,6 +61,7 @@ export const useAuthStore = create<AuthState>(set => ({
     try {
       set({ error: null });
       const response = await AuthService.login({ email, password });
+      set({ token: response.tokens.accessToken });
       return response.user;
     } catch (error: any) {
       set({
@@ -73,6 +77,7 @@ export const useAuthStore = create<AuthState>(set => ({
       const response = await AuthService.register(data);
       set({
         user: response.user,
+        token: response.tokens.accessToken,
         isAuthenticated: true,
         isLoading: false,
       });
@@ -112,6 +117,7 @@ export const useAuthStore = create<AuthState>(set => ({
       await AuthService.logout();
       set({
         user: null,
+        token: null,
         isAuthenticated: false,
         isLoading: false,
         error: null,
@@ -130,15 +136,18 @@ export const useAuthStore = create<AuthState>(set => ({
       set({ isLoading: true });
       const user = await AuthService.getCurrentUser();
       const isAuthenticated = await AuthService.isAuthenticated();
+      const token = await AuthService.getAuthToken();
 
       set({
         user,
+        token,
         isAuthenticated,
         isLoading: false,
       });
     } catch (error: any) {
       set({
         user: null,
+        token: null,
         isAuthenticated: false,
         isLoading: false,
         error: error.message,

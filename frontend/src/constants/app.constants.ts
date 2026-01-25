@@ -4,9 +4,15 @@ export const APP_NAME = 'NirapodPoint';
 export const APP_VERSION = '1.0.0';
 
 // API Configuration
-export const API_BASE_URL = __DEV__
-  ? 'http://192.168.0.197:8000/api/v1' // Updated IP address
-  : 'https://api.nirapodpoint.com/api/v1'; // Production
+// Use your machine's local IP address for physical device testing
+// Run 'ifconfig' (Mac/Linux) or 'ipconfig' (Windows) to find it
+// Don't use 'localhost' for Android emulator or physical device
+export const API_BASE_URL = 'http://192.168.0.103:8000/api/v1';
+
+// For Android Emulator, use:
+// export const API_BASE_URL = 'http://10.0.2.2:8000/api/v1';
+// For Production, use:
+// export const API_BASE_URL = 'https://api.nirapodpoint.com/api/v1';
 
 export const API_TIMEOUT = 30000; // 30 seconds
 

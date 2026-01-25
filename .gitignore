@@ -1,11 +1,7 @@
 # NirapodPoint - Root .gitignore
 
 # Environment files
-.env
-.env.local
 .env.*.local
-.env.production
-.env.test
 
 # OS Files
 .DS_Store
@@ -216,3 +212,7 @@ temp/
 *.bak
 *.backup
 *~
+config.bat
+branch_structure.json
+temp_auto_push.bat
+temp_interactive_push.bat

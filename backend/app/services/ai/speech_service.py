@@ -8,7 +8,7 @@ from typing import Optional, Dict, Any
 from google.cloud import speech_v1
 from google.oauth2 import service_account
 from google.api_core.exceptions import GoogleAPIError
-from pydub import AudioSegment
+# from pydub import AudioSegment
 
 from app.core.config import settings
 

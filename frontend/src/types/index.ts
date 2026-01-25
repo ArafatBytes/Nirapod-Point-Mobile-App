@@ -39,6 +39,7 @@ export interface EmergencyContact {
   user_id: string;
   name: string;
   phone: string;
+  email: string;
   created_at: string;
   updated_at: string;
 }
@@ -46,6 +47,7 @@ export interface EmergencyContact {
 export interface EmergencyContactCreate {
   name: string;
   phone: string;
+  email: string;
 }
 
 // SOS Hot Words types
@@ -324,6 +326,7 @@ export interface CrimeReportFormData {
 export interface EmergencyContactFormData {
   name: string;
   phone: string;
+  email: string;
   relationship: string;
   isPrimary: boolean;
 }
