@@ -91,8 +91,16 @@ class Settings(BaseSettings):
     
     # SOS Settings
     SOS_VIDEO_MAX_DURATION: int = 300
-    SOS_VIDEO_MAX_SIZE_MB: int = 100
+    SOS_VIDEO_MAX_SIZE_MB: int = 25  # Changed to 25MB as per requirement
     EMERGENCY_RESPONSE_RADIUS_KM: int = 10
+    
+    # Email Configuration (SMTP)
+    SMTP_SERVER: str = "smtp.gmail.com"
+    SMTP_PORT: int = 587
+    SMTP_USER: str = ""
+    SMTP_PASSWORD: str = ""
+    FROM_EMAIL: str = ""
+    
     
     # Rate Limiting
     RATE_LIMIT_PER_MINUTE: int = 60

@@ -51,9 +51,12 @@ def create_refresh_token(data: dict) -> str:
 def decode_token(token: str) -> dict:
     """Decode and verify JWT token"""
     try:
-        payload = jwt.decode(token, settings.JWT_SECRET_KEY, algorithms=[settings.JWT_ALGORITHM])
+        payload = jwt.decode(token, settings.JWT_SECRET_KEY, algorithms=[settings.JWT_ALGORITHM], options={"verify_aud": False})
         return payload
-    except JWTError:
+    except JWTError as e:
+        print(f"❌ JWT Validation Error: {str(e)}")
+        print(f"❌ Token being validated: {token[:20]}...")
+        print(f"❌ Using Secret Key (First 10 chars): {settings.JWT_SECRET_KEY[:10]}...")
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Could not validate credentials",
